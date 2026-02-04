@@ -1,91 +1,69 @@
 import React from 'react';
 
 const TransactionTable = ({ transactions, onSelectTransaction }) => {
-    return (
-        <table className="transaction-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Method</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {transactions.length > 0 ? (
-                    transactions.map(tx => (
-                        <tr key={tx.id} onClick={() => onSelectTransaction(tx)}>
-                            <td>#{tx.id}</td>
-                            <td className="amount-cell">{tx.amount_display}</td>
-                            <td>
-                                <span className={`badge ${tx.status}`}>
-                                    {tx.status}
-                                </span>
-                            </td>
-                            <td className="method-cell">
-                                {tx.card_brand && <span className="brand-tag">{tx.card_brand}</span>}
-                                {tx.payment_method}
-                                {tx.card_last4 && <small>**** {tx.card_last4}</small>}
-                            </td>
-                            <td>{new Date(tx.created_at).toLocaleDateString()}</td>
-                            <td>
-                                <button className="action-btn">View Receipt</button>
-                            </td>
-                        </tr>
-                    ))
-                ) : (
-                    <tr>
-                        <td colSpan="6" className="empty-state">No transactions yet</td>
-                    </tr>
-                )}
-            </tbody>
-
-            <style jsx>{`
-        .amount-cell {
-          font-weight: 700;
-          color: var(--text-main);
-        }
-        .method-cell {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-          font-size: 0.9rem;
-        }
-        .brand-tag {
-          font-size: 0.7rem;
-          text-transform: uppercase;
-          background: rgba(255,255,255,0.1);
-          padding: 2px 6px;
-          border-radius: 4px;
-          width: fit-content;
-        }
-        .action-btn {
-          background: rgba(255,255,255,0.05);
-          border: 1px solid var(--border-glass);
-          color: var(--text-muted);
-          padding: 6px 12px;
-          border-radius: 8px;
-          font-size: 0.8rem;
-          cursor: pointer;
-          transition: 0.2s;
-        }
-        .action-btn:hover {
-          background: var(--accent-primary);
-          color: white;
-          border-color: transparent;
-        }
-        tr {
-          cursor: pointer;
-          transition: background 0.2s;
-        }
-        tr:hover {
-          background: rgba(255,255,255,0.02) !important;
-        }
-      `}</style>
-        </table>
-    );
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-left border-collapse">
+        <thead>
+          <tr className="bg-slate-900/80 text-slate-400 text-xs uppercase tracking-wider">
+            <th className="px-6 py-4 font-semibold border-b border-slate-800">Transaction ID</th>
+            <th className="px-6 py-4 font-semibold border-b border-slate-800">Amount</th>
+            <th className="px-6 py-4 font-semibold border-b border-slate-800">Status</th>
+            <th className="px-6 py-4 font-semibold border-b border-slate-800">Payment Method</th>
+            <th className="px-6 py-4 font-semibold border-b border-slate-800">Date</th>
+            <th className="px-6 py-4 font-semibold border-b border-slate-800 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-slate-800">
+          {transactions.length > 0 ? (
+            transactions.map(tx => (
+              <tr
+                key={tx.id}
+                className="group hover:bg-slate-800/40 transition-colors duration-150 cursor-pointer"
+                onClick={() => onSelectTransaction(tx)}
+              >
+                <td className="px-6 py-4 text-sm font-mono text-slate-400 opacity-80 group-hover:opacity-100 uppercase">
+                  #{tx.id}
+                </td>
+                <td className="px-6 py-4 text-sm font-bold text-white">
+                  {tx.amount_display}
+                </td>
+                <td className="px-6 py-4">
+                  <span className={`badge badge-${tx.status}`}>
+                    {tx.status}
+                  </span>
+                </td>
+                <td className="px-6 py-4 text-sm">
+                  <div className="flex flex-col">
+                    <span className="text-slate-200 capitalize font-medium">{tx.payment_method}</span>
+                    {tx.card_brand && (
+                      <span className="text-[10px] text-slate-500 uppercase tracking-tighter">
+                        {tx.card_brand} •••• {tx.card_last4}
+                      </span>
+                    )}
+                  </div>
+                </td>
+                <td className="px-6 py-4 text-xs text-slate-500 font-medium">
+                  {new Date(tx.created_at).toLocaleDateString()}
+                </td>
+                <td className="px-6 py-4 text-right">
+                  <button className="text-xs font-semibold text-primary hover:text-blue-400">
+                    View Receipt
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6" className="px-6 py-12 text-center text-slate-500 text-sm italic bg-slate-900/20">
+                No processed transactions found in this view.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
 };
 
 export default TransactionTable;
