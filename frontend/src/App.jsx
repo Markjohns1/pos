@@ -144,7 +144,7 @@ function App() {
           </h1>
 
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center bg-black/40 border border-white/5 rounded px-3 py-1.5 focus-within:border-blue-500">
+            <div className="hidden sm:flex items-center bg-black/40 border border-white/5 rounded px-3 py-1.5">
               <Search size={14} className="text-slate-600" />
               <input type="text" placeholder="Search..." className="bg-transparent border-none focus:ring-0 text-xs text-slate-300 w-40" />
             </div>
