@@ -12,6 +12,9 @@ function App() {
   const [transactions, setTransactions] = useState([])
   const [loading, setLoading] = useState(true)
 
+  // Navigation State
+  const [activeTab, setActiveTab] = useState('dashboard')
+
   // Modal States
   const [isPaymentOpen, setPaymentOpen] = useState(false)
   const [isReceiptOpen, setReceiptOpen] = useState(false)
@@ -69,8 +72,8 @@ function App() {
           <span>System</span>
         </div>
         <ul className="nav-links">
-          <li className="active">Dashboard</li>
-          <li>Transactions</li>
+          <li className={activeTab === 'dashboard' ? 'active' : ''} onClick={() => setActiveTab('dashboard')}>Dashboard</li>
+          <li className={activeTab === 'transactions' ? 'active' : ''} onClick={() => setActiveTab('transactions')}>Transactions</li>
           <li onClick={handleLogout} className="logout-btn">Logout</li>
         </ul>
       </nav>
@@ -78,44 +81,62 @@ function App() {
       {/* Main Content */}
       <main className="main-content">
         <header className="top-bar">
-          <h1>Dashboard</h1>
+          <h1>{activeTab === 'dashboard' ? 'Dashboard' : 'Transaction History'}</h1>
           <div className="user-profile">
-            <div className={`status-dot ${health?.status === 'healthy' ? 'online' : 'offline'}`}></div>
-            <span>System Status: {health?.status || 'Unknown'}</span>
+            <span>Admin Control Panel</span>
           </div>
         </header>
 
-        <section className="stats-grid">
-          <div className="stat-card glass-card">
-            <h3>Total Sales (Mock)</h3>
-            <p className="stat-value">$1,280.00</p>
-            <span className="stat-change positive">+12% from last week</span>
-          </div>
-          <div className="stat-card glass-card">
-            <h3>Transactions</h3>
-            <p className="stat-value">{transactions.length}</p>
-            <span className="stat-change">Active in current session</span>
-          </div>
-          <div className="stat-card glass-card">
-            <h3>Connection</h3>
-            <p className="stat-value">API Ready</p>
-            <span className="stat-change">{health?.version ? `v${health.version}` : 'Connecting...'}</span>
-          </div>
-        </section>
+        {activeTab === 'dashboard' && (
+          <>
+            <section className="stats-grid">
+              <div className="stat-card glass-card">
+                <h3>Total Sales (Mock)</h3>
+                <p className="stat-value">$1,280.00</p>
+                <span className="stat-change positive">+12% from last week</span>
+              </div>
+              <div className="stat-card glass-card">
+                <h3>Transactions</h3>
+                <p className="stat-value">{transactions.length}</p>
+                <span className="stat-change">Active in current session</span>
+              </div>
+              <div className="stat-card glass-card">
+                <h3>Connection</h3>
+                <p className="stat-value">API Ready</p>
+                <span className="stat-change">{health?.version ? `v${health.version}` : 'Connecting...'}</span>
+              </div>
+            </section>
 
-        <section className="recent-activity glass-card">
-          <div className="section-header">
-            <h2>Recent Transactions</h2>
-            <button className="btn-primary" onClick={() => setPaymentOpen(true)}>
-              <span>+</span> New Charge
-            </button>
-          </div>
+            <section className="recent-activity glass-card">
+              <div className="section-header">
+                <h2>Recent Transactions</h2>
+                <button className="btn-primary" onClick={() => setPaymentOpen(true)}>
+                  <span>+</span> New Charge
+                </button>
+              </div>
 
-          <TransactionTable
-            transactions={transactions}
-            onSelectTransaction={handleViewReceipt}
-          />
-        </section>
+              <TransactionTable
+                transactions={transactions.slice(0, 5)}
+                onSelectTransaction={handleViewReceipt}
+              />
+            </section>
+          </>
+        )}
+
+        {activeTab === 'transactions' && (
+          <section className="recent-activity glass-card full-history">
+            <div className="section-header">
+              <h2>All Transactions</h2>
+              <button className="btn-primary" onClick={() => setPaymentOpen(true)}>
+                <span>+</span> New Charge
+              </button>
+            </div>
+            <TransactionTable
+              transactions={transactions}
+              onSelectTransaction={handleViewReceipt}
+            />
+          </section>
+        )}
       </main>
 
       {/* Modals */}
