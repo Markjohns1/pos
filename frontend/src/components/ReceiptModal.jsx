@@ -100,9 +100,7 @@ const ReceiptModal = ({ isOpen, onClose, transaction }) => {
         .receipt-logo {
           font-weight: 800;
           font-size: 1.2rem;
-          background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: var(--accent-primary);
         }
 
         .receipt-amount {
