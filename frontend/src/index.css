@@ -1,9 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #2563eb;
-  --color-secondary: #16a34a;
+  --color-primary: #3b82f6;
+  /* Brighter, more professional blue */
+  --color-secondary: #10b981;
+  /* High-contrast success green */
 }
 
 :root {
@@ -12,58 +14,63 @@
 }
 
 body {
-  @apply bg-slate-950 text-slate-100 min-h-screen antialiased;
+  @apply bg-[#05060e] text-slate-100 min-h-screen antialiased;
 }
 
-/* Sidebar Links */
+/* --- High-End Sidebar --- */
 .sidebar-link {
-  @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer text-slate-500 hover:text-slate-200 hover:bg-slate-800/50;
+  @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 cursor-pointer text-slate-400 hover:text-white hover:bg-white/5;
 }
 
 .sidebar-link.active {
-  @apply bg-blue-600 text-white shadow-lg shadow-blue-600/25 ring-1 ring-white/10;
+  @apply bg-blue-600 text-white font-bold shadow-[0_0_20px_-5px_rgba(59, 130, 246, 0.5)];
 }
 
-/* Stat Cards */
+/* --- Stat Cards --- */
 .stat-card {
-  @apply bg-slate-900 border border-slate-800 p-6 rounded-2xl relative overflow-hidden;
+  @apply bg-[#0d0e1a] border border-white/5 p-6 rounded-2xl relative overflow-hidden;
 }
 
-/* Badges */
+/* --- Badges --- */
 .badge {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider;
+  @apply inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest border;
 }
 
 .badge-succeeded {
-  @apply bg-emerald-500/10 text-emerald-500 border border-emerald-500/20;
+  @apply bg-emerald-500/10 text-emerald-400 border-emerald-500/20;
 }
 
 .badge-pending {
-  @apply bg-amber-500/10 text-amber-500 border border-amber-500/20;
+  @apply bg-amber-500/10 text-amber-400 border-amber-500/20;
 }
 
 .badge-failed {
-  @apply bg-red-500/10 text-red-500 border border-red-500/20;
+  @apply bg-red-500/10 text-red-400 border-red-500/20;
 }
 
-/* Form Inputs */
+/* --- Form Inputs --- */
 .form-input {
-  @apply w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl focus:ring-1 focus:ring-blue-600 focus:border-transparent outline-none transition-all placeholder:text-slate-600 text-slate-200;
+  @apply w-full px-4 py-2.5 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-600/50 focus:border-blue-500 outline-none transition-all placeholder:text-slate-700 text-slate-200 text-sm;
 }
 
-/* Buttons */
+/* --- Professional Buttons --- */
 .btn {
-  @apply px-4 py-2 rounded-xl font-bold transition-all inline-flex items-center justify-center gap-2 text-sm uppercase tracking-widest;
+  @apply px-4 py-2.5 rounded-xl font-black transition-all inline-flex items-center justify-center gap-2 text-[10px] uppercase tracking-[2px] disabled:opacity-50;
 }
 
 .btn-blue {
-  @apply bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-600/20;
+  @apply bg-blue-600 text-white hover:bg-blue-500 active:scale-[0.98] shadow-lg shadow-blue-600/20;
 }
 
 .btn-green {
-  @apply bg-emerald-600 text-white hover:bg-emerald-500 shadow-lg shadow-emerald-600/20;
+  @apply bg-emerald-600 text-white hover:bg-emerald-500 active:scale-[0.98] shadow-lg shadow-emerald-600/20;
 }
 
 .btn-slate {
-  @apply bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700;
+  @apply bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10;
+}
+
+/* --- Glass Blur Overlay (Only for modals) --- */
+.modal-backdrop {
+  @apply fixed inset-0 bg-black/80 backdrop-blur-md z-[100];
 }
