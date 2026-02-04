@@ -100,11 +100,6 @@ function App() {
                 <p className="stat-value">{transactions.length}</p>
                 <span className="stat-change">Active in current session</span>
               </div>
-              <div className="stat-card glass-card">
-                <h3>Connection</h3>
-                <p className="stat-value">API Ready</p>
-                <span className="stat-change">{health?.version ? `v${health.version}` : 'Connecting...'}</span>
-              </div>
             </section>
 
             <section className="recent-activity glass-card">
