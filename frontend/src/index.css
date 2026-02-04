@@ -58,7 +58,6 @@ body {
 
 .glass-card:hover {
   border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
 }
 
 /* Buttons */
@@ -81,12 +80,11 @@ body {
 
 .btn-primary:hover {
   filter: brightness(1.1);
-  transform: scale(1.02);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .btn-primary:active {
-  transform: scale(0.98);
+  opacity: 0.9;
 }
 
 /* Animations */
@@ -103,7 +101,7 @@ body {
 }
 
 .animate-fade-in {
-  animation: fadeIn var(--transition-slow) forwards;
+  opacity: 1;
 }
 
 /* Input Styles */

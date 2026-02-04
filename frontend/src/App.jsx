@@ -61,7 +61,7 @@ function App() {
   }
 
   return (
-    <div className="app-container animate-fade-in">
+    <div className="app-container">
       {/* Sidebar */}
       <nav className="sidebar glass-card">
         <div className="logo">

@@ -47,7 +47,7 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
 
     return (
         <div className="modal-overlay">
-            <div className="modal-content glass-card animate-fade-in">
+            <div className="modal-content glass-card">
                 <div className="modal-header">
                     <h2>{activeTab === 'card' ? 'Terminal Charge' : 'Send Payment Link'}</h2>
                     <button className="close-btn" onClick={onClose}>&times;</button>

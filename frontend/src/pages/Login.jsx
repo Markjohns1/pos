@@ -23,7 +23,7 @@ const Login = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div className="login-container animate-fade-in">
+    <div className="login-container">
       <div className="login-card glass-card">
         <div className="login-header">
           <div className="logo-icon">POS</div>
