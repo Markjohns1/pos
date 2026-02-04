@@ -1,0 +1,85 @@
+# POS System - Development Docker Compose
+# Run: docker-compose up -d
+
+version: '3.8'
+
+services:
+  # API Server
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=development
+      - APP_DEBUG=true
+      - DATABASE_URL=postgresql://pos_user:pos_password@db:5432/pos_db
+      - REDIS_URL=redis://redis:6379/0
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - AT_USERNAME=${AT_USERNAME}
+      - AT_API_KEY=${AT_API_KEY}
+    volumes:
+      - ./app:/app/app  # Hot reload in dev
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - pos_network
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=pos_user
+      - POSTGRES_PASSWORD=pos_password
+      - POSTGRES_DB=pos_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pos_user -d pos_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pos_network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - pos_network
+
+  # Stripe CLI (for webhook testing)
+  stripe-cli:
+    image: stripe/stripe-cli:latest
+    environment:
+      - STRIPE_API_KEY=${STRIPE_SECRET_KEY}
+    command: listen --forward-to http://api:8000/api/v1/webhooks/stripe
+    depends_on:
+      - api
+    profiles:
+      - stripe  # Only run with: docker-compose --profile stripe up
+    networks:
+      - pos_network
+
+# Volumes
+volumes:
+  postgres_data:
+  redis_data:
+
+# Networks
+networks:
+  pos_network:
+    driver: bridge
