@@ -38,115 +38,109 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-slate-950/90 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-            <div className="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
-                {/* Header */}
-                <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
-                    <div className="flex items-center gap-2">
-                        <div className="p-1.5 bg-blue-500/10 rounded text-blue-500">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+            <div className="bg-[#0a0b14] border border-white/5 w-full max-w-sm rounded-[24px] shadow-2xl overflow-hidden">
+                {/* Protocol Header */}
+                <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+                    <div className="flex items-center gap-3 text-white">
+                        <div className="p-2 bg-blue-600/10 rounded-lg text-blue-500">
                             <CreditCard size={18} />
                         </div>
-                        <h2 className="text-sm font-black uppercase tracking-widest text-white">Payment Interface</h2>
+                        <h2 className="text-[10px] font-black uppercase tracking-[3px]">Secure Terminal</h2>
                     </div>
-                    <button onClick={onClose} className="p-2 text-slate-500 hover:text-white transition-colors">
-                        <X size={20} />
+                    <button onClick={onClose} className="p-2 text-slate-600 hover:text-white transition-colors">
+                        <X size={18} />
                     </button>
                 </div>
 
-                {/* Tabs */}
-                <div className="p-2 flex bg-slate-950 border-b border-slate-800">
+                {/* System Tabs */}
+                <div className="flex bg-black/20 p-1">
                     <button
                         onClick={() => setActiveTab('card')}
-                        className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-tighter transition-all ${activeTab === 'card' ? 'bg-slate-800 text-blue-500 shadow-inner' : 'text-slate-500 hover:text-slate-300'
+                        className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${activeTab === 'card' ? 'bg-white/5 text-blue-500 shadow-inner' : 'text-slate-600 hover:text-slate-400'
                             }`}
                     >
-                        <Smartphone size={16} /> Dashboard Link
+                        Terminal Key
                     </button>
                     <button
                         onClick={() => setActiveTab('link')}
-                        className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-tighter transition-all ${activeTab === 'link' ? 'bg-slate-800 text-blue-500 shadow-inner' : 'text-slate-500 hover:text-slate-300'
+                        className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${activeTab === 'link' ? 'bg-white/5 text-blue-500 shadow-inner' : 'text-slate-600 hover:text-slate-400'
                             }`}
                     >
-                        <Send size={16} /> SMS Remote Link
+                        SMS Remote
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                <form onSubmit={handleSubmit} className="p-6 space-y-5">
                     <div className="space-y-4">
-                        <div className="flex gap-4">
-                            <div className="flex-1 space-y-1.5">
-                                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Asset Value</label>
-                                <div className="relative">
-                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-600 text-sm">USD</span>
-                                    <input
-                                        type="number"
-                                        step="0.01"
-                                        required
-                                        className="form-input pl-14 h-12 text-lg font-black"
-                                        placeholder="0.00"
-                                        value={formData.amount}
-                                        onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                                    />
+                        <div className="space-y-2">
+                            <label className="text-[9px] font-black text-slate-600 uppercase tracking-widest ml-1">Payload Asset Value</label>
+                            <div className="relative group">
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pr-3 border-r border-white/5">
+                                    <span className="text-[10px] font-black text-slate-500">USD</span>
                                 </div>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    required
+                                    className="form-input pl-16 h-12 text-lg font-bold"
+                                    placeholder="0.00"
+                                    value={formData.amount}
+                                    onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+                                />
                             </div>
                         </div>
 
-                        <div className="space-y-1.5">
-                            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Memo / Description</label>
+                        <div className="space-y-2">
+                            <label className="text-[9px] font-black text-slate-600 uppercase tracking-widest ml-1">Entry Memo</label>
                             <input
                                 type="text"
                                 className="form-input h-11"
-                                placeholder="Consultation / Service Entry"
+                                placeholder="Service description..."
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                             />
                         </div>
 
                         {activeTab === 'link' && (
-                            <div className="space-y-1.5">
-                                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Destination Phone (SMS)</label>
-                                <div className="relative">
-                                    <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600" size={16} />
-                                    <input
-                                        type="tel"
-                                        required
-                                        className="form-input pl-11 h-11"
-                                        placeholder="+1 / +254..."
-                                        value={formData.customer_phone}
-                                        onChange={(e) => setFormData({ ...formData, customer_phone: e.target.value })}
-                                    />
-                                </div>
+                            <div className="space-y-2">
+                                <label className="text-[9px] font-black text-slate-600 uppercase tracking-widest ml-1">Target Node (Phone)</label>
+                                <input
+                                    type="tel"
+                                    required
+                                    className="form-input h-11"
+                                    placeholder="+254 / +1..."
+                                    value={formData.customer_phone}
+                                    onChange={(e) => setFormData({ ...formData, customer_phone: e.target.value })}
+                                />
                             </div>
                         )}
 
                         {activeTab === 'card' && (
-                            <div className="space-y-1.5">
-                                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Client Authorization Email</label>
-                                <div className="relative">
-                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600" size={16} />
-                                    <input
-                                        type="email"
-                                        className="form-input pl-11 h-11"
-                                        placeholder="client@vault.com"
-                                        value={formData.customer_email}
-                                        onChange={(e) => setFormData({ ...formData, customer_email: e.target.value })}
-                                    />
-                                </div>
+                            <div className="space-y-2">
+                                <label className="text-[9px] font-black text-slate-600 uppercase tracking-widest ml-1">Auth Proxy (Email)</label>
+                                <input
+                                    type="email"
+                                    className="form-input h-11"
+                                    placeholder="admin@vault.io"
+                                    value={formData.customer_email}
+                                    onChange={(e) => setFormData({ ...formData, customer_email: e.target.value })}
+                                />
                             </div>
                         )}
 
                         <div className="bg-blue-500/5 border border-blue-500/10 p-4 rounded-xl flex items-start gap-3">
-                            <Info className="text-blue-500 shrink-0 mt-0.5" size={14} />
-                            <p className="text-[10px] text-slate-400 font-medium leading-relaxed">
-                                Terminal requests are processed via Stripe Global Network. Ensure stable connectivity during authorization flow.
+                            <Info className="text-blue-500 shrink-0 mt-0.5" size={12} />
+                            <p className="text-[9px] text-slate-500 font-bold leading-relaxed uppercase tracking-tighter">
+                                Terminal authorization is processed via Stripe Global Grid. Ensure connectivity.
                             </p>
                         </div>
                     </div>
 
-                    <div className="flex gap-3 pt-2">
-                        <button type="button" onClick={onClose} className="btn-slate flex-1 h-12 uppercase text-[10px] font-bold tracking-widest border border-slate-700">Cancel</button>
-                        <button type="submit" disabled={loading} className="btn-blue flex-[1.5] h-12 uppercase text-[10px] font-bold tracking-widest">
-                            {loading ? 'Transmitting Data...' : activeTab === 'card' ? 'Authorize Payload' : 'Push Remote Link'}
+                    <div className="grid grid-cols-2 gap-3 pt-2">
+                        <button type="button" onClick={onClose} className="btn-slate h-11 text-[9px]">Cancel</button>
+                        <button type="submit" disabled={loading} className="btn-blue h-11 text-[9px]">
+                            {loading ? 'Transmitting...' : 'Authorize'}
                         </button>
                     </div>
                 </form>
